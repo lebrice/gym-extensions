@@ -1,6 +1,6 @@
 <img src="assets/Mcgill.png" width=25% align="right" />
 
-# gym-extensions
+# gym-extensions (dumb fork for Sequoia with minor modifications)
 This python package is an extension to OpenAI Gym for auxiliary tasks (multitask learning, transfer learning, inverse reinforcement learning, etc.)
 
 
