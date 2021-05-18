@@ -11,6 +11,8 @@ from gym import utils
 from gym.envs.mujoco import mujoco_env
 import mujoco_py
 
+import ctypes
+
 def GravityEnvFactory(class_type):
     """class_type should be an OpenAI gym type"""
 
@@ -29,9 +31,10 @@ def GravityEnvFactory(class_type):
 
             # make sure we're using a proper OpenAI gym Mujoco Env
             assert isinstance(self, mujoco_env.MujocoEnv)
-
-            self.model.opt.gravity = (mujoco_py.mjtypes.c_double * 3)(*[0., 0., gravity])
-            self.model._compute_subtree()
-            self.model.forward()
+            # self.model.opt.gravity = (mujoco_py.mjtypes.c_double * 3)(*[0., 0., gravity])
+            self.model.opt.gravity[:] = (ctypes.c_double * 3)(*[0., 0., gravity])
+            # self.model._compute_subtree()
+            # self.model.forward()
+            self.sim.forward()
 
     return GravityEnv

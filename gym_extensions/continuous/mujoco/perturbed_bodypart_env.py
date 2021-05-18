@@ -62,7 +62,7 @@ def ModifiedSizeEnvFactory(class_type):
                 self,
                 model_path,
                 body_parts=["torso"],
-                size_scale=1.0,
+                size_scales=[1.0],
                 *args,
                 **kwargs):
 
@@ -70,7 +70,7 @@ def ModifiedSizeEnvFactory(class_type):
 
             # find the body_part we want
             tree = ET.parse(model_path)
-            for body_part in body_parts:
+            for body_part, size_scale in zip(body_parts, size_scales):
                 # torso = tree.find(".//body[@name='%s']" % body_part)
 
                 # grab the geoms
@@ -91,9 +91,8 @@ def ModifiedSizeEnvFactory(class_type):
                 # geoms[0].attrib["fromto"] = str() * length_scale) # the first one should always be the thing we want.
 
             # create new xml
-            _, file_path = tempfile.mkstemp(text=True)
+            _, file_path = tempfile.mkstemp(suffix='.xml', text=True)
             tree.write(file_path)
-
             # load the modified xml
             class_type.__init__(self, model_path=file_path)
             utils.EzPickle.__init__(self)

@@ -11,7 +11,7 @@ def test_image_resize():
     return transformed_env
 
 def test_append_prev_timestep():
-    gymenv = gym.make("Hopper-v1")
+    gymenv = gym.make("Hopper-v2")
     transformers = [AppendPrevTimeStepTransformer()]
     transformed_env = ObservationTransformWrapper(gymenv, transformers)
     return transformed_env

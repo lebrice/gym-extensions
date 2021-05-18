@@ -22,12 +22,13 @@ class PusherFullRange(PusherEnv, utils.EzPickle):
         # make sure we're using a proper OpenAI gym Mujoco Env
         assert isinstance(self, mujoco_env.MujocoEnv)
 
-        self.model.jnt_range = self.get_and_modify_joint_range('r_shoulder_pan_joint')
+        self.model.jnt_range[:] = self.get_and_modify_joint_range('r_shoulder_pan_joint')
         self.model._compute_subtree()
         self.model.forward()
 
     def get_and_modify_joint_range(self, body_name, new_array=np.array([-.854, 2.714602])):
-        idx = self.model.joint_names.index(six.b(body_name))
+        # idx = self.model.joint_names.index(six.b(body_name))
+        idx = self.model.joint_names.index(body_name)
         temp = np.copy(self.model.jnt_range)
         temp[idx] = new_array
         return temp
@@ -70,12 +71,13 @@ class PusherLeftSide(PusherEnv, utils.EzPickle):
         # make sure we're using a proper OpenAI gym Mujoco Env
         assert isinstance(self, mujoco_env.MujocoEnv)
 
-        self.model.jnt_range = self.get_and_modify_joint_range('r_shoulder_pan_joint')
+        self.model.jnt_range[:] = self.get_and_modify_joint_range('r_shoulder_pan_joint')
         self.model._compute_subtree()
         self.model.forward()
 
     def get_and_modify_joint_range(self, body_name, new_array=np.array([-.854, 2.714602])):
-        idx = self.model.joint_names.index(six.b(body_name))
+        # idx = self.model.joint_names.index(six.b(body_name))
+        idx = self.model.joint_names.index(body_name)
         temp = np.copy(self.model.jnt_range)
         temp[idx] = new_array
         return temp

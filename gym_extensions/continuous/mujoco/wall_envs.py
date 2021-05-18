@@ -102,7 +102,7 @@ def WallEnvFactory(class_type):
                     raise Exception("Every geom of the torso must have a name "
                                     "defined")
 
-            _, file_path = tempfile.mkstemp(text=True)
+            _, file_path = tempfile.mkstemp(suffix='.xml', text=True)
             tree.write(file_path)
 
             # self._goal_range = self._find_goal_range()
@@ -114,8 +114,9 @@ def WallEnvFactory(class_type):
             # import pdb; pdb.set_trace()
 
         def get_body_xquat(self, body_name):
-            idx = self.model.body_names.index(six.b(body_name))
-            return self.model.data.xquat[idx]
+            # idx = self.model.body_names.index(six.b(body_name))
+            idx = self.model.body_names.index(body_name)
+            return self.sim.data.body_xquat[idx]
 
         def _reset(self):
             temp = np.copy(self.model.geom_pos)
@@ -276,7 +277,7 @@ def SimpleWallEnvFactory(class_type):
 
 
 
-            _, file_path = tempfile.mkstemp(text=True)
+            _, file_path = tempfile.mkstemp(suffix='.xml', text=True)
             tree.write(file_path)
 
             # self._goal_range = self._find_goal_range()
@@ -290,7 +291,8 @@ def SimpleWallEnvFactory(class_type):
         def get_body_xquat(self, body_name):
 
             idx = self.model.body_names.index(six.b(body_name))
-            return self.model.data.xquat[idx]
+            # return self.sim.data.body_xquat[idx]
+            return self.sim.data.body_xquat[idx]
 
         def _reset(self):
 
@@ -477,7 +479,7 @@ def MazeFactory(class_type):
                 )
 
 
-            _, file_path = tempfile.mkstemp(text=True)
+            _, file_path = tempfile.mkstemp(suffix='.xml', text=True)
             tree.write(file_path)
 
             # self._goal_range = self._find_goal_range()
@@ -491,7 +493,8 @@ def MazeFactory(class_type):
         def get_body_xquat(self, body_name):
 
             idx = self.model.body_names.index(six.b(body_name))
-            return self.model.data.xquat[idx]
+            # return self.sim.data.body_xquat[idx]
+            return self.sim.data.body_xquat[idx]
 
 
 
@@ -664,7 +667,7 @@ def StairsFactory(class_type):
 
 
 
-            _, file_path = tempfile.mkstemp(text=True)
+            _, file_path = tempfile.mkstemp(suffix='.xml', text=True)
             tree.write(file_path)
 
             # self._goal_range = self._find_goal_range()
@@ -678,7 +681,8 @@ def StairsFactory(class_type):
         def get_body_xquat(self, body_name):
 
             idx = self.model.body_names.index(six.b(body_name))
-            return self.model.data.xquat[idx]
+            # return self.sim.data.body_xquat[idx]
+            return self.sim.data.body_xquat[idx]
 
         def _reset(self):
 
@@ -766,9 +770,9 @@ def StairsFactory(class_type):
             return self.get_body_com("torso")[:2]
 
         def _step(self, a):
-            posbefore = self.model.data.qpos[0, 0]
+            posbefore = self.sim.data.qpos[0, 0]
             self.do_simulation(a, self.frame_skip)
-            posafter, height, ang = self.model.data.qpos[0:3, 0]
+            posafter, height, ang = self.sim.data.qpos[0:3, 0]
             alive_bonus = 1.0
             reward = (posafter - posbefore) / self.dt
             reward += alive_bonus

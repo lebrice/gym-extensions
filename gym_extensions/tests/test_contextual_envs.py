@@ -24,6 +24,8 @@ def test_cartpole_contextual():
 
     env.unwrapped.change_context(context_vect)
     if context_vect != env.unwrapped.context:
+        print(context_vect)
+        print(env.unwrapped.context)
         raise AttributeError
 
 
